@@ -1,0 +1,15 @@
+select Statement
+---------------------
+SELECT table_name,table_schema,table_type FROM information_schema.tables WHERE table_schema='dms' AND table_type='BASE TABLE';
+
+connect to instance
+-----------------------
+sudo su -
+mysql -u root -p
+password --> rootuser
+sqlcmd -S localhost -U SA -P Admin123$
+
+port names db installation
+--------------------------------
+mssql 34.66.236.254:1431
+mysql 34.66.236.254:3306

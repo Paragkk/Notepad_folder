@@ -1,0 +1,24 @@
+cat > file1 (to create new file) ctrl+d
+cat >> file1 (to concat text)
+tac filename (see file in reverse)
+
+touch filename  (empty file)
+sudo su --superuser do switch user
+ls -a (list all file including hidden)
+
+yum install httpd -y
+yum update -y (upgrade all files)
+yum update httpd
+service httpd start
+service httpd status
+chkconfig httpd on     -----autostrat service after switch on
+chkconfig httpd off
+which <software name>
+yum install tree
+tree
+cat /etc/os-release
+ln -s filename softfilename  --- to create softlink
+tar -cvf dirx.tar dirx 
+gzip dirx.tar
+gunzip dirx.tar.gip
+tar -xvf dirx.tar

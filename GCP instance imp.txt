@@ -1,0 +1,25 @@
+generic window pwd
+------------------
+V}4GN^,yE!Twe5V
+
+
+troubleshoot ssh connection
+------------------------------
+gcloud compute instances \
+    tail-serial-port-output \
+    oracle-18c-instance --zone=us-central1-a
+In case of full disk
+---------------------------
+gcloud compute instances stop oracle-18c-instance --zone us-central1-a
+
+gcloud compute disks resize oracle-18c-instance --size 40 --zone us-central1-a
+
+gcloud compute instances start oracle-18c-instance --zone us-central1-a
+  
+  
+ 
+  
+
+
+
+

@@ -1,0 +1,15 @@
+yum install docker -y
+docker images
+docker search teradata
+docker pull
+docker run -it --name <container name> <image name> /bin/bash
+docker start <container name>
+docker attach <conatiner name>
+docker ps -a (list all containers with process status)
+docker stop <container name>
+docker rm <container name>
+
+
+docker pull cilowlape1976/teradata-demo-version-free-download
+
+docker run -it --name teradata zhlh/teradata_unixodbc /bin/bash

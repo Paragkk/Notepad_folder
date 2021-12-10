@@ -1,0 +1,36 @@
+db-migration-service:jj_stage
+
+Query to generate schema column names
+--------------------------------------------
+SELECT
+ column_name name,data_type type
+FROM
+ `db-migration-service`.stage.INFORMATION_SCHEMA.COLUMNS
+WHERE
+ table_name="cmdb_ci"
+ 
+ Staging schema
+--------------
+SELECT
+ column_name name,'STRING' type
+FROM
+ `db-migration-service`.jj_stage.INFORMATION_SCHEMA.COLUMNS
+WHERE
+ table_name="incident_sla_Application_Server_data_ext"
+ 
+ query to generate select from staging to curated
+ ----------------------------------------------------
+ SELECT
+IF
+  ( data_type = 'STRING',
+    column_name,
+    'safe_CAST('||column_name||' AS '||data_type||') AS '||column_name||',') AS result
+FROM
+  `db-migration-service`.stage.INFORMATION_SCHEMA.COLUMNS
+WHERE
+  table_name="incident_sla_Application_Server_data_ext"
+  
+drop table script
+------------------
+select concat("drop table ",table_schema,".",   table_name, ";" )
+from demo_staging_data.INFORMATION_SCHEMA.TABLES

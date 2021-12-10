@@ -1,0 +1,30 @@
+oracle-instance-vm
+user --- oracle pwd -- Jupiter123
+
+run in begining
+----------------
+export ORACLE_SID=XE
+export ORAENV_ASK=NO
+. /opt/oracle/product/18c/dbhomeXE/bin/oraenv
+
+column column_name format a30
+set linesize 300
+
+
+connect
+-----------
+sqlplus hr/hr@localhost:1521/XEPDB1
+systemctl restart oracle-xe-18c
+
+jdbc details
+-------------
+jdbc:oracle:thin:@130.211.211.55:1521/XEPDB1
+oracle.jdbc.driver.OracleDriver
+
+common commands
+----------------
+insert into jobs values('TT_TEST','Test Title 1',16000,20000);
+
+ALTER TABLE src_prov MODIFY PRICE_INCL_TAX number(15);
+
+
