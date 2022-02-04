@@ -5,7 +5,7 @@ Query to generate schema column names
 SELECT
  column_name name,data_type type
 FROM
- `db-migration-service`.stage.INFORMATION_SCHEMA.COLUMNS
+ `db-migration-service`.jj_stage.INFORMATION_SCHEMA.COLUMNS
 WHERE
  table_name="cmdb_ci"
  
@@ -26,7 +26,7 @@ IF
     column_name,
     'safe_CAST('||column_name||' AS '||data_type||') AS '||column_name||',') AS result
 FROM
-  `db-migration-service`.stage.INFORMATION_SCHEMA.COLUMNS
+  `db-migration-service`.jj_stage.INFORMATION_SCHEMA.COLUMNS
 WHERE
   table_name="incident_sla_Application_Server_data_ext"
   
@@ -34,3 +34,44 @@ drop table script
 ------------------
 select concat("drop table ",table_schema,".",   table_name, ";" )
 from demo_staging_data.INFORMATION_SCHEMA.TABLES
+
+create table script
+------------------------------
+SELECT t.ddl
+FROM `db-migration-service.demo_staging_data.INFORMATION_SCHEMA.TABLES` t
+WHERE t.table_name in (select table_name from demo_staging_data.INFORMATION_SCHEMA.TABLES);
+
+
+flattening data of log files
+---------------------------------
+CREATE OR REPLACE TABLE  `db-migration-service.jj_stage.audit_test_data_curated` as 
+
+SELECT *, 
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.alert.ciname')  AS ciname ,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.alert.collector')  AS collector,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.cmdb.app_supportgroup')  AS app_group,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.cmdb.appname')  AS app_name,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.cmdb.appid')  AS app_id,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.cmdb.criticality')  AS criticality,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.cmdb.environment')  AS environment,
+JSON_EXTRACT_SCALAR(jnj,'$.jnj.hostname')  AS hostname,
+
+(case 
+when short_message like 'node=%' then SPLIT((SPLIT(short_message, '=')[OFFSET(2)]),' ')[OFFSET(0)] 
+else 'Null' end) as type ,
+
+(case 
+when short_message like 'node=%' then
+timestamp_seconds(cast(SPLIT((SPLIT((SPLIT(short_message, '=')[OFFSET(3)]),'(')[OFFSET(1)]),'.')[OFFSET(0)] as int))
+else NULL end ) as datetime_extracted,
+
+(case 
+when short_message like '%PAM:setcred%' then 'Set Cred'
+when short_message like '%PAM:session_close%' then 'Session Close'
+when short_message like '%PAM:session_open%' then 'Session Open'
+when short_message like '%PAM:accounting%' then 'Accounting'
+ELSE 'Null' end ) as PAM,
+
+SUBSTR(short_message, (STRPOS(short_message, 'pid=') + 4), 5) AS pid_value,
+
+FROM `db-migration-service.jj_stage.audit_test_data_2` 

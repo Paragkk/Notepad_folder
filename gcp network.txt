@@ -1,0 +1,16 @@
+create network
+-----------------------------------
+gcloud compute networks create griffin-dev-vpc --subnet-mode=custom
+
+create subnet-mode
+-----------------------
+gcloud compute networks subnets create griffin-dev-wp --network=griffin-dev-vpc --region=us-central1 --range=192.168.16.0/20
+gcloud compute networks subnets create griffin-dev-mgmt --network=griffin-dev-vpc --region=us-central1 --range=192.168.32.0/20
+
+query
+----------
+gcloud compute networks subnets list --sort-by=NETWORK
+
+create firwall
+-----------------------
+gcloud compute firewall-rules create privatenet-allow-icmp-ssh-rdp --direction=INGRESS --priority=1000 --network=privatenet --action=ALLOW --rules=icmp,tcp:22,tcp:3389 --source-ranges=0.0.0.0/0

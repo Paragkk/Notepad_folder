@@ -1,0 +1,17 @@
+ssh from gcloud console
+--------------------------
+gcloud compute ssh kraken-jumphost --zone us-east1-b --tunnel-through-iap
+
+activate service account in gcloud
+---------------------------------------
+gcloud auth activate-service-account --key-file credentials.json
+
+list all env variables
+--------------------------------
+gcloud config list project
+
+----------------------------------
+
+connect sql instance
+----------------------------
+gcloud sql connect  griffin-dev-db --user=root

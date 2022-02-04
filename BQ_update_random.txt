@@ -1,6 +1,6 @@
-select source_id from `db-migration-service.report.data_report`;
+select source_id from `db-migration-service.jj_report.moogsoft_data_report`;
 
-UPDATE `db-migration-service.report.data_report`
+UPDATE `db-migration-service.jj_report.moogsoft_data_report`
 SET source_id = CAST(FLOOR(10*RAND()) AS string)
 WHERE TRUE
 
@@ -16,5 +16,3 @@ CREATE TEMP FUNCTION rand_date(min_date DATE,max_date DATE) AS (
 UPDATE `db-migration-service.jj_report.netcool_data_report`
 SET first_event_time = CAST(rand_date("2020-01-01", "2020-12-31") AS DATE)
 WHERE TRUE
-
-gsutil -m cp -r \"gs://jj-poc-data/data\ files/" \.

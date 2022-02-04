@@ -22,3 +22,7 @@ tar -cvf dirx.tar dirx
 gzip dirx.tar
 gunzip dirx.tar.gip
 tar -xvf dirx.tar
+
+update vm
+--------------
+apt-get update
