@@ -1,0 +1,9 @@
+-----------Install VENV---------------
+python3 -m venv /Users/parag/work/pyenv
+source /Users/parag/work/pyenv/bin/activate
+-----------Install packages-----------
+pip install numpy
+pip install pandas
+python -m pip install -U matplotlib
+pip install seaborn
+pip install jupyter
