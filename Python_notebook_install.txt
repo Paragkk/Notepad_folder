@@ -7,3 +7,5 @@ pip install pandas
 python -m pip install -U matplotlib
 pip install seaborn
 pip install jupyter
+--run notebook---
+jupyter notebook
